@@ -1,85 +1,101 @@
-📌 Aperçu
+# 🐱 Catospher — Secure Text Encryption Extension
 
-Catospher est une extension de navigateur  permettant d’encrypter et décrypter du texte (comme des mots de passe ou notes sensibles) en utilisant AES-GCM et un PIN à usage unique.
+**Encrypt and decrypt text locally using AES-GCM and a generated passphrase.**  
+Split the encrypted JSON and the passphrase, and send them through different channels for secure sharing.
 
-L’objectif : partager des informations sensibles de manière sécurisée en séparant le message chiffré et le code PIN.
+---
 
-✨ Fonctionnalités principales
+## 🔎 Overview
+Catospher is a browser extension (Manifest V3) that lets you:
+- Encrypt arbitrary text (passwords, notes) to an encrypted JSON object.
+- Generate a secure **alphanumeric passphrase** (includes `@ # ! ?`) for the recipient.
+- Decrypt a JSON object when given the correct passphrase.
+- Keep state locally using `localStorage` and copy/cross-share easily.
 
-🔒 Chiffrement AES-GCM 256 bits basé sur un PIN aléatoire à 8 chiffres.
+Files of interest:
+- `manifest.json` — extension manifest
+- `popup.html` — UI
+- `popup.js` — encryption/decryption logic
 
-📑 Génération d’un objet JSON chiffré à partager.
+---
 
-🔑 Déchiffrement via le JSON + le PIN transmis par un autre canal.
+## ✨ Features
+- AES-GCM 256 bits for authenticated encryption.  
+- KDF: PBKDF2-SHA256 (200,000 iterations by default).  
+- Generated passphrase: alphanumeric + `@ # ! ?` (default length: 12).  
+- Copy-to-clipboard helpers for passphrase, encrypted JSON, or decrypted text.  
+- Local state saved in `localStorage`.  
+- Clear and simple UI: Encrypt / Decrypt tabs + Clear All.  
 
-📋 Copie rapide du PIN, du JSON et du texte déchiffré.
+---
 
-💾 Sauvegarde automatique de l’état via localStorage.
+## 🔐 Security Hardness
 
-🗑️ Bouton Clear All pour réinitialiser les champs.
+### Example passphrase
+`VkzIJ?ri6#Mu`  
+- Length: **12 characters**  
+- Character set: 66 characters (upper + lower + digits + `@ # ! ?`)  
 
-Interface claire avec onglets Encrypt / Decrypt.
+### Entropy
+- ≈ **72.5 bits**  
+- Keyspace = `66^12 ≈ 6.8 × 10^21` possible passphrases  
 
-🖥️ Interface
-Onglet Encrypt
+### Brute-force expectations
+Average guesses needed ≈ `3.4 × 10^21`.  
 
-Entrée du texte secret.
+| Guesses per second | Expected time to crack |
+|--------------------|-------------------------|
+| 1 billion (10⁹)    | ~108,000 years |
+| 1 million (10⁶)    | ~108 million years |
+| 10,000 (10⁴)       | ~10.8 billion years |
+| 1,000 (10³)        | ~108 billion years |
+| 100 (10²)          | ~1 trillion years |
 
-Génération d’un PIN unique.
+With **PBKDF2 (200k iterations)** each guess is even slower → practical brute-force infeasible.
 
-Génération d’un JSON chiffré prêt à partager.
-⚠️ Recommandation : ne jamais transmettre le PIN et le JSON par le même canal.
+### Takeaways
+- 12+ char passphrases are already very strong.  
+- Using PBKDF2 at 200k iterations makes brute-force astronomically expensive.  
+- Switching to **Argon2id** (memory-hard) makes GPU/ASIC brute-force even more costly.  
+- Never transmit JSON + passphrase over the same channel.  
 
-Onglet Decrypt
+---
 
-Coller le JSON chiffré reçu.
+## ⚙️ Installation (local testing)
+1. Clone or download this repository.  
+2. Open Chrome/Edge → `chrome://extensions/`.  
+3. Enable **Developer mode**.  
+4. Click **Load unpacked** and select the folder containing the extension files.  
+5. The 🐱 Catospher icon will appear in the toolbar.  
 
-Saisir le PIN reçu séparément.
+---
 
-Obtenir instantanément le texte déchiffré.
+## 🧪 Usage
+- **Encrypt**: type your text → click **Encrypt** → copy the JSON and the generated passphrase (send separately).  
+- **Decrypt**: paste JSON + passphrase → click **Decrypt** to reveal plaintext.  
+- **Clear All**: resets saved state in localStorage.  
 
-⚙️ Installation locale
+---
 
-Clone ou télécharge ce repo.
+## 📌 Roadmap
+- [ ] Switch PBKDF2 → Argon2id (WASM).  
+- [ ] Add UI lockout after N failed decrypt attempts.  
+- [ ] Optional QR-code output for easier sharing.  
 
-Ouvre Chrome/Edge → chrome://extensions/
+---
 
-Active le mode développeur.
+## ⚠️ Limitations
+- If both JSON + passphrase are leaked together, encryption cannot help → always use separate channels.  
+- Local brute-force is theoretically possible if attacker has both JSON and unlimited time/resources, but practically infeasible given entropy + KDF.  
+- Adding Argon2id or hybrid public-key crypto would further improve security.  
 
-Clique sur Charger l’extension non empaquetée.
+---
 
-Sélectionne le dossier contenant :
+## 📜 License & Contact
+- ✅ Usage: personal, educational, experimental.  
+- ❌ Commercial usage requires prior written authorization.  
+- 📧 Contact: `chaib.nassim@outlook.com`  
 
-manifest.json
+☕ If you’d like to **buy me a coffee**, contact me via email.  
 
-popup.html
-
-popup.js
-
-le dossier icons/
-
-L’icône 🐱 apparaîtra dans la barre d’outils.
-
-🔐 Sécurité
-
-Algorithme : AES-GCM 256 bits
-
-Dérivation de clé : PBKDF2 + SHA-256 (200 000 itérations)
-
-Chaque chiffrement génère :
-
-un sel aléatoire,
-
-un vecteur d’initialisation (IV),
-
-un PIN unique à 8 chiffres.
-
-📄 Licence & Usage
-
-✅ Usage personnel, éducatif, expérimental.
-
-❌ Usage commercial interdit sans autorisation écrite du propriétaire.
-
-📧 Contact : chaib.nassim@outlook.com
-
-© 2025 Catospher – Tous droits réservés.
+© 2025 **Catospher** – All rights reserved.  
