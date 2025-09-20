@@ -34,12 +34,12 @@
     <textarea id="plaintext" placeholder="Your secret text here..."></textarea>
     <button id="encryptBtn" class="action"><span class="material-icons">lock</span> Encrypt</button>
 
-    <h3>Generated PIN (Send Separately)</h3>
-    <div class="row">
-      <div class="pin-display" id="pin">--------</div>
-      <button id="copyPinBtn" class="small"><span class="material-icons">content_copy</span></button>
-    </div>
-    <p class="warning">⚠️ Never send the PIN and the JSON through the same channel!</p>
+   <h3>Generated Passphrase (Send Separately)</h3>
+<div class="row">
+  <div class="pin-display" id="pin">--------</div>
+  <button id="copyPinBtn" class="small"><span class="material-icons">content_copy</span></button>
+</div>
+<p class="warning">⚠️ Never send the passphrase and the JSON through the same channel!</p>
 
     <h3>Encrypted JSON (Send to Recipient)</h3>
     <div class="row">
@@ -53,9 +53,9 @@
     <p>Paste the received JSON object:</p>
     <textarea id="jsonInput" placeholder='{"v":1,"salt":"...","iv":"...","ct":"...","iter":200000}'></textarea>
 
-    <p>Enter the 8-digit PIN received separately:</p>
-    <input type="text" id="pinInput" placeholder="8-digit PIN">
-    <button id="decryptBtn" class="action"><span class="material-icons">lock_open</span> Decrypt</button>
+   <p>Enter the passphrase received separately:</p>
+<input type="text" id="pinInput" placeholder="Paste the passphrase here" autocomplete="off">
+<button id="decryptBtn" class="action"><span class="material-icons">lock_open</span> Decrypt</button>
 
     <h3>Decrypted Text:</h3>
     <div class="row">
