@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Catospher",
+  "version": "1.0",
+  "description": "Encrypt and decrypt text securely using AES-GCM and a PIN.",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/cat-16.png",
+      "48": "icons/cat-48.png"
+    }
+  },
+  "icons": {
+    "16": "icons/cat-16.png",
+    "48": "icons/cat-48.png",
+    "128": "icons/cat-128.png"
+  }
+}

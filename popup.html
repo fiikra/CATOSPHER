@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Catospher</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body { font-family: sans-serif; width: 400px; padding: 12px; background: #f7f9fb; color: #0b2545; overflow: hidden; }
+    h2 { margin-top: 0; }
+    .tab-nav { border-bottom: 1px solid #ccc; margin-bottom: 15px; display:flex; }
+    .tab-btn { flex:1; background: none; border: none; padding: 10px 15px; cursor: pointer; font-size: 1rem; }
+    .tab-btn.active { border-bottom: 3px solid #2463eb; font-weight: bold; color:#2463eb; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    textarea, input { width: 95%; padding: 8px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; font-family: monospace; }
+    textarea { height: 80px; }
+    button.action { margin-top: 12px; padding: 8px 12px; border: none; border-radius: 8px; background: #2463eb; color: white; cursor: pointer; display:flex; align-items:center; gap:4px; }
+    button.small { background:#eee; color:#333; padding:4px 8px; margin-left:6px; }
+    .pin-display { font-family:monospace; font-size:1.4rem; letter-spacing:4px; margin:10px 0; background: #eee; padding: 8px; border-radius: 5px; display:inline-block; }
+    .warning { font-size: 0.8rem; color: #d93025; }
+    .row { display:flex; align-items:center; justify-content:space-between; }
+  </style>
+</head>
+<body>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="encrypt-tab">Encrypt</button>
+    <button class="tab-btn" data-tab="decrypt-tab">Decrypt</button>
+  </div>
+
+  <div id="encrypt-tab" class="tab-content active">
+    <h2>Encrypt Text</h2>
+    <p>Enter the text (e.g., a password) to encrypt:</p>
+    <textarea id="plaintext" placeholder="Your secret text here..."></textarea>
+    <button id="encryptBtn" class="action"><span class="material-icons">lock</span> Encrypt</button>
+
+    <h3>Generated PIN (Send Separately)</h3>
+    <div class="row">
+      <div class="pin-display" id="pin">--------</div>
+      <button id="copyPinBtn" class="small"><span class="material-icons">content_copy</span></button>
+    </div>
+    <p class="warning">⚠️ Never send the PIN and the JSON through the same channel!</p>
+
+    <h3>Encrypted JSON (Send to Recipient)</h3>
+    <div class="row">
+      <textarea id="jsonOutput" readonly placeholder="Encrypted JSON will appear here..."></textarea>
+      <button id="copyJsonBtn" class="small"><span class="material-icons">content_copy</span></button>
+    </div>
+  </div>
+
+  <div id="decrypt-tab" class="tab-content">
+    <h2>Decrypt Text</h2>
+    <p>Paste the received JSON object:</p>
+    <textarea id="jsonInput" placeholder='{"v":1,"salt":"...","iv":"...","ct":"...","iter":200000}'></textarea>
+
+    <p>Enter the 8-digit PIN received separately:</p>
+    <input type="text" id="pinInput" placeholder="8-digit PIN">
+    <button id="decryptBtn" class="action"><span class="material-icons">lock_open</span> Decrypt</button>
+
+    <h3>Decrypted Text:</h3>
+    <div class="row">
+      <textarea id="decrypted" readonly></textarea>
+      <button id="copyDecryptedBtn" class="small"><span class="material-icons">content_copy</span></button>
+    </div>
+  </div>
+
+  <hr>
+  <button id="clearBtn" class="action" style="background:#d93025;">
+    <span class="material-icons">delete</span> Clear All
+  </button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
